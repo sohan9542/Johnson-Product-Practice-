@@ -1,0 +1,26 @@
+.card-container{
+    margin: 30px 0;
+    display: flex;
+    border: 1px solid rgb(22, 98, 211);
+    padding: 15px;
+    border-radius: 3px;
+}
+.card-container .img-box{
+    margin-right: 20px;
+}
+.seller{
+    color: rgb(230, 66, 38);
+}
+.add-to-cart{
+    border: none;
+    outline: none;
+    padding: .5rem .8rem;
+    background-color: tomato;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: .2s ease-in;
+}
+.add-to-cart:hover{
+    background-color: rgb(252, 62, 29);
+}

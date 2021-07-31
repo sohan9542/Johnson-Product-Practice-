@@ -1,0 +1,23 @@
+.header h1{
+    color: white;
+}
+a{
+    text-decoration: none;
+}
+.header nav{
+    background-color: rgb(22, 98, 211);
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.header nav a{
+    padding: 10px 20px;;
+    color: white;
+    transition: .3s ease-in;
+    border-radius: 5px;
+}
+.header nav a:hover{
+    background-color: rgba(47, 69, 194, 0.308);
+    color: black;
+    /* grid-template-columns: repeat(5, 1fr); */
+}
