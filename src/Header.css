@@ -21,3 +21,18 @@ a{
     color: black;
     /* grid-template-columns: repeat(5, 1fr); */
 }
+
+form{
+    padding: 20px;
+    margin: 0 auto;
+}
+form button{
+    border: none;
+    padding: .5rem .8rem;
+    background-color: springgreen;
+}
+form input{
+    border: 2px solid springgreen;
+    padding: .3rem;
+    width: 500px;
+}

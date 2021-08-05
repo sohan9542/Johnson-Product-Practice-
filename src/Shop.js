@@ -3,35 +3,33 @@ import fakeData from './fakeData/index'
 import { useState } from 'react';
 import './Shop.css';
 import Myproduct from './Product';
+import { addToDatabaseCart } from './utilities/databaseManager';
 function Shop() {
     const first10 = fakeData.slice(0, 10);
     // console.log(first10);
-    const [product, setProduct] = useState(first10);
-    const [cart, setCart] = useState([])
+    const product = first10;
+    const [cart, setCart] = useState([]);
     const handleAddproduct = (product) => {
         const newCart = [...cart, product];
         setCart(newCart);
+        const sameProduct = newCart.filter(pd=> pd.key === product.key);
+        const count = sameProduct.length;
+        addToDatabaseCart(product.key, count)
     }
-    localStorage.setItem('Cart', JSON.stringify(cart))
-    const totalPrice = cart.reduce((total, prd) => total + prd.price, 0);
+    // localStorage.setItem('Cart', JSON.stringify(cart))
+    const totalPrice = cart.reduce((total, prd) => total + prd.price, 0);                                                                                            
     let tax = 0;
     if (totalPrice > 1) {
         tax = 12;
-    }
-    const [dis, setDis] = useState({});
-
-    const d = { display: 'none' };
-
-    function display() {
-        setDis(d)
     }
     return (
         <div className="shop-container">
             <div className="product-container">
                 <ul>
                     {
-                        product.map(product => <Myproduct key={product.key} handle={handleAddproduct} product={product} url={product.url} name={product.name} pic={product.img} price={product.price} priceFrection={product.priceFraction} seller={product.seller} star={product.star} stock={product.stock}></Myproduct>)
+                        product.map(product => <Myproduct key={product.key} handle={handleAddproduct} product={product} ></Myproduct>)
                     }
+                    
                 </ul>
             </div>
             <div className="cart-container">

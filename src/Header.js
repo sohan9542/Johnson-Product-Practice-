@@ -4,15 +4,22 @@ import {
     Switch,
     Route,
     Link,
-    useRouteMatch,
-    useParams
-} from "react-router-dom";
 
+} from "react-router-dom";
+import NotFound from './NotFound';
 import './Header.css';
 import Review from './Review';
 import Shop from './Shop';
-
+import ProdcutDetail from './ProdcutDetail';
+import SearchProduct from './SearchProduct';
+import { useState, useEffect } from 'react';
 export const Header = () => {
+    const [Search, setSearch] = useState("")
+    function searchItem() {
+        const searchName = document.getElementById('search').value;
+        setSearch(searchName)
+    }
+    console.log(Search);
     return (
         <Router>
             <div className="header">
@@ -23,16 +30,29 @@ export const Header = () => {
                         <Link to="/review">Review product</Link>
                     </div>
                 </nav>
+                <form>
+                    <input type="text" id="search" required /> <Link to={"/Item"}><button onClick={searchItem}>Search</button></Link>
+                </form>
             </div>
 
             <Switch>
-          <Route path="/review">
-              <Review />
-          </Route>
-          <Route path="/">
-            <Shop />
-          </Route>
-        </Switch>
+                <Route path="/Item">
+                    <SearchProduct name={Search} />
+                </Route>
+                <Route path="/product/:Key">
+                    <ProdcutDetail />
+                </Route>
+                <Route path="/review">
+                    <Review />
+                </Route>
+                <Route path="/">
+                    <Shop />
+                </Route>
+
+                <Route path='*'>
+                    <NotFound />
+                </Route>
+            </Switch>
         </Router>
 
     )
