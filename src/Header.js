@@ -26,7 +26,7 @@ export const Header = () => {
                 <nav>
                     <div className="brand"><h1>Buy.com</h1></div>
                     <div className="options">
-                        <Link to="/">My Profile</Link>
+                        <Link to="/">All Product</Link>
                         <Link to="/review">Review product</Link>
                     </div>
                 </nav>

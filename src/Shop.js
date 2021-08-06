@@ -17,6 +17,7 @@ function Shop() {
         addToDatabaseCart(product.key, count)
     }
     // localStorage.setItem('Cart', JSON.stringify(cart))
+    // console.log(cart);
     const totalPrice = cart.reduce((total, prd) => total + prd.price, 0);                                                                                            
     let tax = 0;
     if (totalPrice > 1) {
@@ -38,7 +39,7 @@ function Shop() {
                 <h4>Tax & Vat: {tax}$</h4>
                 <h4>Total: {Math.round((totalPrice + tax))}$</h4>
                 {/* <button onClick={display} style={dis}>Display none</button> */}
-            </div>
+            </div> 
         </div>
     )
 }
