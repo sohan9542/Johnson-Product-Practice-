@@ -1,14 +1,29 @@
 import React from 'react'
 import fakeData from './fakeData/index'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './Shop.css';
 import Myproduct from './Product';
-import { addToDatabaseCart } from './utilities/databaseManager';
+import { Link } from 'react-router-dom';
+import { addToDatabaseCart, getDatabaseCart } from './utilities/databaseManager';
+
+
+
+
 function Shop() {
     const first10 = fakeData.slice(0, 10);
-    // console.log(first10);
     const product = first10;
     const [cart, setCart] = useState([]);
+    useEffect(() => {
+        const saveCart = getDatabaseCart();
+        const productKeys = Object.keys(saveCart);
+        const cartProducts = productKeys.map(key => {
+            const product = fakeData.find(pd => pd.key === key);
+            product.quantity = saveCart[key];
+            return product;
+
+        })
+        setCart(cartProducts)
+    }, [])
     const handleAddproduct = (product) => {
         const newCart = [...cart, product];
         setCart(newCart);
@@ -16,12 +31,17 @@ function Shop() {
         const count = sameProduct.length;
         addToDatabaseCart(product.key, count)
     }
-    // localStorage.setItem('Cart', JSON.stringify(cart))
-    // console.log(cart);
-    const totalPrice = cart.reduce((total, prd) => total + prd.price, 0);                                                                                            
-    let tax = 0;
-    if (totalPrice > 1) {
-        tax = 12;
+    const totalPrice = cart.reduce((total, prd) => total + (prd.price * prd.quantity), 0);                                                                                            
+    const quantitys = cart.reduce((total, q) => total + q.quantity, 0)
+    let tax;
+    if (totalPrice < 100){
+        tax = 10;
+    }
+    else if(totalPrice < 200){
+        tax = 20;
+    }
+    else if (totalPrice > 500){
+        tax = 50;
     }
     return (
         <div className="shop-container">
@@ -34,11 +54,11 @@ function Shop() {
                 </ul>
             </div>
             <div className="cart-container">
-                <h4>Item ordered: {cart.length}</h4>
-                <h4>Item Price: {Math.round(totalPrice)}$</h4>
-                <h4>Tax & Vat: {tax}$</h4>
-                <h4>Total: {Math.round((totalPrice + tax))}$</h4>
-                {/* <button onClick={display} style={dis}>Display none</button> */}
+                <h4>Item ordered: {quantitys}</h4>
+                <h4>Item Price: {(totalPrice).toFixed(2)}$</h4>
+                <h3>Tax : {tax}</h3>
+                <h4>Total: {(totalPrice + tax).toFixed(2)}$</h4>
+                <Link to={'/review'}><button className="add-to-cart">Review Order</button></Link>
             </div> 
         </div>
     )

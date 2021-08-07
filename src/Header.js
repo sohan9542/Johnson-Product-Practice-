@@ -12,14 +12,13 @@ import Review from './Review';
 import Shop from './Shop';
 import ProdcutDetail from './ProdcutDetail';
 import SearchProduct from './SearchProduct';
-import { useState, useEffect } from 'react';
+import { useState} from 'react';
 export const Header = () => {
     const [Search, setSearch] = useState("")
     function searchItem() {
         const searchName = document.getElementById('search').value;
         setSearch(searchName)
     }
-    console.log(Search);
     return (
         <Router>
             <div className="header">
