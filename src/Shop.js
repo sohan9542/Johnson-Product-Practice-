@@ -13,6 +13,25 @@ function Shop() {
     const first10 = fakeData.slice(0, 10);
     const product = first10;
     const [cart, setCart] = useState([]);
+
+    const handleAddproduct = (product) => {
+        const sameProduct = cart.find(pd => pd.key === product.key);
+        let count = 1;
+        let newCart;
+        if (sameProduct) {
+            count = sameProduct.quantity + 1;
+            sameProduct.quantity = count;
+            const others = cart.filter(pd => pd.key !== product.key)
+            newCart = [...others, sameProduct]
+        }
+        else {
+            product.quantity = 1;
+            newCart = [...cart, product]
+        }
+
+        setCart(newCart);
+        addToDatabaseCart(product.key, count)
+    }
     useEffect(() => {
         const saveCart = getDatabaseCart();
         const productKeys = Object.keys(saveCart);
@@ -24,24 +43,16 @@ function Shop() {
         })
         setCart(cartProducts)
     }, [])
-    const handleAddproduct = (product) => {
-        const newCart = [...cart, product];
-        setCart(newCart);
-        const sameProduct = newCart.filter(pd=> pd.key === product.key);
-        const count = sameProduct.length;
-        addToDatabaseCart(product.key, count)
-    }
-    const totalPrice = cart.reduce((total, prd) => total + (prd.price * prd.quantity), 0);                                                                                            
+    // console.log(cart);
+    const totalPrice = cart.reduce((total, prd) => total + (prd.price * prd.quantity), 0);
     const quantitys = cart.reduce((total, q) => total + q.quantity, 0)
+
     let tax;
-    if (totalPrice < 100){
+    if (totalPrice > 100) {
         tax = 10;
     }
-    else if(totalPrice < 200){
-        tax = 20;
-    }
-    else if (totalPrice > 500){
-        tax = 50;
+    else{
+        tax = 0
     }
     return (
         <div className="shop-container">
@@ -50,16 +61,16 @@ function Shop() {
                     {
                         product.map(product => <Myproduct key={product.key} handle={handleAddproduct} product={product} ></Myproduct>)
                     }
-                    
+
                 </ul>
             </div>
             <div className="cart-container">
                 <h4>Item ordered: {quantitys}</h4>
                 <h4>Item Price: {(totalPrice).toFixed(2)}$</h4>
-                <h3>Tax : {tax}</h3>
+                <h4>Tax: {tax}$</h4>
                 <h4>Total: {(totalPrice + tax).toFixed(2)}$</h4>
                 <Link to={'/review'}><button className="add-to-cart">Review Order</button></Link>
-            </div> 
+            </div>
         </div>
     )
 }

@@ -44,7 +44,7 @@ export const Header = () => {
                 <Route path="/review">
                     <Review />
                 </Route>
-                <Route path="/">
+                <Route exact path="/">
                     <Shop />
                 </Route>
 

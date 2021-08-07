@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import fakeData from './fakeData';
 import ReviewProduct from './ReviewProduct';
-import { getDatabaseCart, removeFromDatabaseCart } from './utilities/databaseManager';
+import { getDatabaseCart, processOrder, removeFromDatabaseCart } from './utilities/databaseManager';
+import { Link } from 'react-router-dom';
 
 const Review = () => {
     const [cart, setCart] = useState([])
@@ -26,14 +27,15 @@ const Review = () => {
         setCart(newCart)
     }
     let tax;
-    if (totalPrice < 100){
+    if (totalPrice > 100) {
         tax = 10;
     }
-    else if(totalPrice < 200){
-        tax = 20;
+    else{
+        tax = 0
     }
-    else if (totalPrice > 500){
-        tax = 50;
+    function handleOrder() {
+        setCart([])
+        processOrder()
     }
     return (
         <div className="shop-container">
@@ -42,8 +44,8 @@ const Review = () => {
             </div>
             <div className="cart-container">
                 <p>Total Item : {quantitys}</p>
-                <p>Tax : {tax}</p>
                 <h3>Total Price : {(totalPrice + tax).toFixed(2)}$</h3>
+                <Link to="/review"><button className="add-to-cart" onClick={handleOrder}>Place order</button></Link>
             </div>
         </div>
     )
